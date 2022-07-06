@@ -38,40 +38,59 @@ function operate(operator, a, b) {
     }
 }
 
+function removeLast() {
+    if (currentValue.charAt(currentValue.length - 1) == ' ') {
+        currentValue = currentValue.slice(0, -2);
+    } else {
+        currentValue = currentValue.slice(0, -1);
+    }
+}
+
+function deleteAll() {
+    currentValue = '';
+    previousValue = '';
+}
+
+function startCalculation() {
+    previousValue = currentValue;
+    currArr = currentValue.split(' ');
+    currentValue = (operate(currArr[1], currArr[0], currArr[2]) + ' ');
+}
+
+function setDisplay() {
+    currentDisplay.textContent = currentValue;
+    previousDisplay.textContent = previousValue;
+}
+
 buttons.forEach(button => {
     button.addEventListener('click', function(e) {
         if (e.target.textContent == 'C') {
-            if (currentValue.charAt(currentValue.length - 1) == ' ') {
-                currentValue = currentValue.slice(0, -2);
-            } else {
-                currentValue = currentValue.slice(0, -1);
-            }
-            currentDisplay.textContent = currentValue;
+            removeLast();
+            setDisplay();
         } else if (e.target.textContent == 'DEL') {
-            currentValue = '';
-            currentDisplay.textContent = currentValue;
-            previousValue = '';
-            previousValue.textContent = previousValue;
+            deleteAll();
+            setDisplay();
         } else if (e.target.textContent == '=') {
             isResult = true;
-            previousValue = currentValue;
-            currArr = currentValue.split(' ');
-            currentValue = (operate(currArr[1], currArr[0], currArr[2]) + ' ');
-            currentDisplay.textContent = currentValue;
-            previousDisplay.textContent = previousValue;
-            console.log(currentValue);
+            startCalculation();
+            setDisplay();
         } else {
             if (isResult) {
                 if (e.target.textContent >= '0' && e.target.textContent <= '9') {
-                    currentValue = '';
-                    currentDisplay.textContent = currentValue;
-                    previousValue = '';
-                    previousValue.textContent = previousValue;
+                    deleteAll();
+                    setDisplay();
                 }
                 isResult = false;
             }
+
+            if ((currentValue.charAt(currentValue.length - 2) < '0' || currentValue.charAt(currentValue.length - 2) > '9') && 
+                    (e.target.textContent < '0' || e.target.textContent > '9')) {
+                currentValue = currentValue.slice(0, -2);
+            } 
+            
             currentValue += (e.target.textContent + ' ');
-            currentDisplay.textContent = currentValue;
+            
+            setDisplay();
         }
     })
 })
