@@ -1,0 +1,55 @@
+html, body {
+    height: 80%;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 5px;
+    max-width: 400px;
+    max-height: 700px;
+}
+
+.grid * {
+    font-size: 25px;
+    border-radius: 5px;
+}
+
+.grid button {
+    background: pink;
+}
+
+.display {
+    width: 100%;
+    height: 80px;
+    background: pink;
+    margin-bottom: 30px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-end;
+}
+
+.calculator {
+    padding: 20px 10px 20px 10px;
+    background: rgb(184, 182, 182);
+    border-radius: 5px;
+}
+
+#current {
+    font-size: 28px;
+    margin: 5px;
+}
+
+#previous {
+    font-size: 16px;
+    margin: 5px;
+}
