@@ -87,8 +87,10 @@ buttons.forEach(button => {
                     (e.target.textContent < '0' || e.target.textContent > '9')) {
                 currentValue = currentValue.slice(0, -2);
             } 
-            
-            currentValue += (e.target.textContent + ' ');
+
+            if (!((e.target.textContent < '0' || e.target.textContent > '9') && currentValue.split(' ').length >= 3)) {
+                currentValue += (e.target.textContent + ' ');
+            }
             
             setDisplay();
         }
