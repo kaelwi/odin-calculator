@@ -52,9 +52,15 @@ function deleteAll() {
 }
 
 function startCalculation() {
+    currentValue = currentValue.trim();
     previousValue = currentValue;
     currArr = currentValue.split(' ');
-    currentValue = (operate(currArr[1], currArr[0], currArr[2]) + ' ');
+    if (currArr.length >= 3) {
+        currentValue = (operate(currArr[1], currArr[0], currArr[2]));
+    } else {
+        currentValue = currArr[0];
+    }
+    
 }
 
 function setDisplay() {
@@ -83,13 +89,19 @@ buttons.forEach(button => {
                 isResult = false;
             }
 
-            if ((currentValue.charAt(currentValue.length - 2) < '0' || currentValue.charAt(currentValue.length - 2) > '9') && 
+            if (currentValue.length >=2 && 
+                    (currentValue.charAt(currentValue.length - 2) != ' ' && 
+                    (currentValue.charAt(currentValue.length - 2) < '0' || currentValue.charAt(currentValue.length - 2) > '9')) && 
                     (e.target.textContent < '0' || e.target.textContent > '9')) {
                 currentValue = currentValue.slice(0, -2);
             } 
 
-            if (!((e.target.textContent < '0' || e.target.textContent > '9') && currentValue.split(' ').length >= 3)) {
-                currentValue += (e.target.textContent + ' ');
+            if ((e.target.textContent < '0' || e.target.textContent > '9') && currentValue.toString().split(' ').length < 3) {
+                currentValue += (' ' + e.target.textContent + ' ');
+            }
+
+            if (e.target.textContent >= '0' && e.target.textContent <= '9') {
+                currentValue += e.target.textContent;
             }
             
             setDisplay();

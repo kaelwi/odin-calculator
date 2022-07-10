@@ -43,11 +43,12 @@ footer {
 
 .grid * {
     font-size: 25px;
-    border-radius: 5px;
 }
 
 .grid button {
     background: #f49cbb;
+    border-radius: 5px;
+    border: 1px solid #dd2d4a;
 }
 
 .display {
@@ -60,12 +61,17 @@ footer {
     flex-direction: column;
     align-items: flex-end;
     justify-content: flex-end;
+    border: 1px solid #a2e2eb;
 }
 
 .calculator {
     padding: 20px 10px 20px 10px;
     background: #f26a8d;
     border-radius: 5px;
+    border-top: 1px solid #dd2d4a;
+    border-left: 1px solid #dd2d4a;
+    border-bottom: 3px solid #dd2d4a;
+    border-right: 3px solid #dd2d4a;
 }
 
 #current {
