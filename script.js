@@ -24,8 +24,8 @@ function divide(a, b) {
 }
 
 function operate(operator, a, b) {
-    a = parseInt(a);
-    b = parseInt(b);
+    a = parseFloat(a);
+    b = parseFloat(b);
     switch (operator) {
         case "+":
             return add(a, b);
@@ -56,7 +56,8 @@ function startCalculation() {
     previousValue = currentValue;
     currArr = currentValue.split(' ');
     if (currArr.length >= 3) {
-        currentValue = (operate(currArr[1], currArr[0], currArr[2]));
+        // round to at most 2 decimals
+        currentValue = Math.round(((operate(currArr[1], currArr[0], currArr[2])) + Number.EPSILON) * 100) / 100;
     } else {
         currentValue = currArr[0];
     }
@@ -71,7 +72,11 @@ function setDisplay() {
 buttons.forEach(button => {
     button.addEventListener('click', function(e) {
         if (e.target.textContent == 'C') {
-            removeLast();
+            if (isResult) {
+                deleteAll(9);
+            } else {
+                removeLast();
+            }
             setDisplay();
         } else if (e.target.textContent == 'DEL') {
             deleteAll();
@@ -91,16 +96,17 @@ buttons.forEach(button => {
 
             if (currentValue.length >=2 && 
                     (currentValue.charAt(currentValue.length - 2) != ' ' && 
+                    currentValue.charAt(currentValue.length - 2) != '.' &&
                     (currentValue.charAt(currentValue.length - 2) < '0' || currentValue.charAt(currentValue.length - 2) > '9')) && 
                     (e.target.textContent < '0' || e.target.textContent > '9')) {
                 currentValue = currentValue.slice(0, -2);
             } 
 
-            if ((e.target.textContent < '0' || e.target.textContent > '9') && currentValue.toString().split(' ').length < 3) {
+            if (e.target.textContent != '.' && (e.target.textContent < '0' || e.target.textContent > '9') && currentValue.toString().split(' ').length < 3) {
                 currentValue += (' ' + e.target.textContent + ' ');
             }
 
-            if (e.target.textContent >= '0' && e.target.textContent <= '9') {
+            if (e.target.textContent == '.' || (e.target.textContent >= '0' && e.target.textContent <= '9')) {
                 currentValue += e.target.textContent;
             }
             
