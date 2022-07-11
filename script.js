@@ -20,6 +20,9 @@ function multiply(a, b) {
 }
 
 function divide(a, b) {
+    if (b == 0) {
+        return "Error: Division by 0!"
+    }
     return a / b;
 }
 
@@ -58,7 +61,12 @@ function startCalculation() {
     currArr = currentValue.split(' ');
     if (currArr.length >= 3) {
         // round to at most 2 decimals
-        currentValue = Math.round(((operate(currArr[1], currArr[0], currArr[2])) + Number.EPSILON) * 100) / 100;
+        let result = operate(currArr[1], currArr[0], currArr[2]);
+        if (typeof result !== 'number') {
+            currentValue = result;
+        } else {
+            currentValue = Math.round((result + Number.EPSILON) * 100) / 100;
+        }
     } else {
         currentValue = currArr[0];
     }
