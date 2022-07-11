@@ -52,6 +52,7 @@ function deleteAll() {
 }
 
 function startCalculation() {
+    // Trim any leading or trailing whitespaces
     currentValue = currentValue.trim();
     previousValue = currentValue;
     currArr = currentValue.split(' ');
@@ -73,7 +74,7 @@ buttons.forEach(button => {
     button.addEventListener('click', function(e) {
         if (e.target.textContent == 'C') {
             if (isResult) {
-                deleteAll(9);
+                deleteAll();
             } else {
                 removeLast();
             }
@@ -86,6 +87,7 @@ buttons.forEach(button => {
             startCalculation();
             setDisplay();
         } else {
+            // if currentValue is showing result of previous calculation and any number is pressed -> delete previous calculation
             if (isResult) {
                 if (e.target.textContent >= '0' && e.target.textContent <= '9') {
                     deleteAll();
@@ -94,6 +96,7 @@ buttons.forEach(button => {
                 isResult = false;
             }
 
+            // if last written char in currentValue is a sign and a sign is pressed -> change signs
             if (currentValue.length >=2 && 
                     (currentValue.charAt(currentValue.length - 2) != ' ' && 
                     currentValue.charAt(currentValue.length - 2) != '.' &&
@@ -102,6 +105,7 @@ buttons.forEach(button => {
                 currentValue = currentValue.slice(0, -2);
             } 
 
+            // insert whitespace before and after sign
             if (e.target.textContent != '.' && (e.target.textContent < '0' || e.target.textContent > '9') && currentValue.toString().split(' ').length < 3) {
                 currentValue += (' ' + e.target.textContent + ' ');
             }
