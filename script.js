@@ -126,8 +126,12 @@ buttons.forEach(button => {
             } 
 
             // insert whitespace before and after sign
-            if (e.target.textContent != '.' && (e.target.textContent < '0' || e.target.textContent > '9') && currentValue.toString().split(' ').length < 3) {
+            if (e.target.textContent != '.' && (e.target.textContent < '0' || e.target.textContent > '9')) {
+                if (currentValue.toString().split(' ').length >= 3) {
+                    startCalculation();
+                }
                 currentValue += (' ' + e.target.textContent + ' ');
+                
             } 
 
             if (e.target.textContent == '.' || (e.target.textContent >= '0' && e.target.textContent <= '9')) {
