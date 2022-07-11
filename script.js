@@ -54,6 +54,18 @@ function deleteAll() {
     previousValue = '';
 }
 
+function checkDot(number) {
+    if (number.charAt(0) == '.') {
+        number = 0 + number;
+    }
+
+    if (number.charAt(number.length-1) == '.') {
+        number = number + 0;
+    }
+
+    return number;
+}
+
 function startCalculation() {
     // Trim any leading or trailing whitespaces
     currentValue = currentValue.trim();
@@ -61,14 +73,14 @@ function startCalculation() {
     currArr = currentValue.split(' ');
     if (currArr.length >= 3) {
         // round to at most 2 decimals
-        let result = operate(currArr[1], currArr[0], currArr[2]);
+        let result = operate(currArr[1], checkDot(currArr[0]), checkDot(currArr[2]));
         if (typeof result !== 'number') {
             currentValue = result;
         } else {
             currentValue = Math.round((result + Number.EPSILON) * 100) / 100;
         }
     } else {
-        currentValue = currArr[0];
+        currentValue = checkDot(currArr[0])
     }
     
 }
@@ -97,7 +109,7 @@ buttons.forEach(button => {
         } else {
             // if currentValue is showing result of previous calculation and any number is pressed -> delete previous calculation
             if (isResult) {
-                if (e.target.textContent >= '0' && e.target.textContent <= '9') {
+                if ((e.target.textContent >= '0' && e.target.textContent <= '9') || e.target.textContent == '.') {
                     deleteAll();
                     setDisplay();
                 }
@@ -109,17 +121,19 @@ buttons.forEach(button => {
                     (currentValue.charAt(currentValue.length - 2) != ' ' && 
                     currentValue.charAt(currentValue.length - 2) != '.' &&
                     (currentValue.charAt(currentValue.length - 2) < '0' || currentValue.charAt(currentValue.length - 2) > '9')) && 
-                    (e.target.textContent < '0' || e.target.textContent > '9')) {
+                    (e.target.textContent < '0' || e.target.textContent > '9') && e.target.textContent != '.') {
                 currentValue = currentValue.slice(0, -2);
             } 
 
             // insert whitespace before and after sign
             if (e.target.textContent != '.' && (e.target.textContent < '0' || e.target.textContent > '9') && currentValue.toString().split(' ').length < 3) {
                 currentValue += (' ' + e.target.textContent + ' ');
-            }
+            } 
 
             if (e.target.textContent == '.' || (e.target.textContent >= '0' && e.target.textContent <= '9')) {
-                currentValue += e.target.textContent;
+                if (!(e.target.textContent == '.' && currentValue.charAt(currentValue.length - 1) == '.')) {
+                    currentValue += e.target.textContent;
+                } 
             }
             
             setDisplay();
